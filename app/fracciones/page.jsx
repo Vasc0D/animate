@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import TestDiagnostico from "./test_diagnostico";
 
 const rangosNiveles = {
-  básico: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  intermedio: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-  avanzado: [21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+  básico: [1],
+  intermedio: Array.from({ length: 11 }, (_, i) => i + 1),  // 1 a 11
+  avanzado: Array.from({ length: 10 }, (_, i) => i + 21),   // 21 a 30
 };
 
 export default function Fracciones({}) {
@@ -51,49 +51,42 @@ export default function Fracciones({}) {
       });
   }, [email]);
 
-  // Cuando el TestDiagnostico llama a onTerminar
-  const onTerminar = ({ preguntas, respuestas }) => {
-    // Calculamos score
+  const onTerminar = async ({ preguntas, respuestas }) => {
+    // Calcular score igual
     const score = preguntas.reduce((sum, p) => {
       const respuesta = respuestas[p.id]?.trim().toLowerCase();
       const correcta = p.respuesta_correcta.trim().toLowerCase();
       return sum + (respuesta === correcta ? p.valor : 0);
     }, 0);
-
-    // Determinamos nivel general y desbloqueos
-    const claveNivel =
-      score <= 7 ? "básico" : score <= 14 ? "intermedio" : "avanzado";
-    const desbloqueados = rangosNiveles[claveNivel];
-
-    // Guardamos en backend
-    fetch("/user/guardar_test_diagnostico", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        tema: "fracciones",
-        score,
-        niveles_desbloqueados: desbloqueados,
-        nivel_general: claveNivel,
-      }),
-    })
-      .then(() => {
-        setTestRealizado(true);
-        setNivelesDesbloqueados(desbloqueados);
-        setNivelGeneral(claveNivel);
-      })
-      .catch((err) => {
-        console.error("Error guardando diagnóstico:", err);
+  
+    // Enviar respuestas al backend
+    try {
+      const res = await fetch("http://localhost:5001/fracciones/resultados", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, respuestas }),
       });
-
-      // Redirigir a la página de resultado pasándole puntaje, nivel y lista
+      const data = await res.json();
+  
+      // Usar datos del backend
+      const { puntaje, nivel, niveles } = data;
+  
+      // Actualizar estados con la info del backend
+      setTestRealizado(true);
+      setNivelesDesbloqueados(niveles);
+      setNivelGeneral(nivel);
+  
+      // Navegar a resultado con parámetros correctos
       const params = new URLSearchParams({
-        puntaje: String(score),
-        nivel: claveNivel,
-        niveles: nivelesDesbloqueados.join(","),
+        puntaje: String(puntaje),
+        nivel,
+        niveles: niveles.join(","),
       });
       router.push(`/fracciones/resultado?${params.toString()}`);
-  };
+    } catch (err) {
+      console.error("Error guardando diagnóstico:", err);
+    }
+  };  
 
   // --- RENDERIZADO ---
 
