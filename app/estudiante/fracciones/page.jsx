@@ -82,7 +82,7 @@ export default function Fracciones({}) {
         nivel,
         niveles: niveles.join(","),
       });
-      router.push(`/fracciones/resultado?${params.toString()}`);
+      router.push(`/estudiante/fracciones/resultado?${params.toString()}`);
     } catch (err) {
       console.error("Error guardando diagnóstico:", err);
     }
@@ -105,5 +105,5 @@ export default function Fracciones({}) {
     );
   }
 
-  router.push("/fracciones/niveles");
+  router.push("/estudiante/fracciones/niveles");
 }

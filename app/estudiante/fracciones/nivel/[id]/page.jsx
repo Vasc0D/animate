@@ -79,12 +79,12 @@ export default function NivelFracciones({ params }) {
 
   // Función para avanzar al siguiente nivel (redirigir a /fracciones/nivel/{nivel+1})
   const siguienteNivel = () => {
-    router.push(`/fracciones/nivel/${nivel + 1}`);
+    router.push(`/estudiante/fracciones/nivel/${nivel + 1}`);
   };
 
   // Función para volver a la lista de niveles
   const volverANiveles = () => {
-    router.push("/fracciones/niveles");
+    router.push("estudiante/fracciones/niveles");
   };
 
   // --- RENDERIZADO ---

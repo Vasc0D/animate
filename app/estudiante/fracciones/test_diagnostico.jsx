@@ -37,7 +37,7 @@ export default function TestDiagnostico() {
     );
     const data = await res.json();
     router.push(
-      `/fracciones/resultado?puntaje=${data.puntaje}&nivel=${data.nivel}`
+      `/estudiante/fracciones/resultado?puntaje=${data.puntaje}&nivel=${data.nivel}`
     );
   };
 

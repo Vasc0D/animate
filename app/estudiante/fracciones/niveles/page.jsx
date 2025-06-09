@@ -54,7 +54,7 @@ export default function FraccionesNiveles() {
           Primero completa el test diagnóstico
         </p>
         <Link
-          href="/fracciones/test_diagnostico"
+          href="/estudiante/fracciones/test_diagnostico"
           className="rounded-full bg-[#FF7A00] px-6 py-3 text-white font-semibold hover:bg-[#ff8c1a] transition"
         >
           Ir al Test
@@ -105,7 +105,7 @@ export default function FraccionesNiveles() {
                 **/}
                 {desbloqueado ? (
                   <Link
-                    href={`/fracciones/nivel/${n}`}
+                    href={`/estudiante/fracciones/nivel/${n}`}
                     className="
                       relative 
                       flex 

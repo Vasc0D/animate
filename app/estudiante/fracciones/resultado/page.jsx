@@ -35,7 +35,7 @@ export default function ResultadoPage() {
         </p>
 
         <Link
-          href="/fracciones/niveles"
+          href="/estudiante/fracciones/niveles"
           className="inline-block rounded-full bg-[#FF7A00] px-6 py-3 font-semibold text-white transition hover:bg-[#ff8c1a]"
         >
           Ver mis niveles
