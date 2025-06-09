@@ -84,7 +84,7 @@ export default function NivelFracciones({ params }) {
 
   // Función para volver a la lista de niveles
   const volverANiveles = () => {
-    router.push("estudiante/fracciones/niveles");
+    router.push("/estudiante/fracciones/niveles");
   };
 
   // --- RENDERIZADO ---
